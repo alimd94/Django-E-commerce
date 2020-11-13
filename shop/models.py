@@ -5,12 +5,19 @@ from django.utils.text import slugify
 # Create your models here.
 class Category(mpttmodels.MPTTModel):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="images/category/%name")
+    image = models.ImageField(upload_to="images/category/%Name")
     parent = mpttmodels.TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
         return self.name
     
+class Property(models.Model):
+    key = models.CharField(max_length=50)
+    value = models.CharField(max_length=50)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.key + ":" + self.value
 
 
 class Product(models.Model):
@@ -23,9 +30,9 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     model_name = models.CharField(max_length=100)
     brand = models.CharField(max_length=100)
-    image1 = models.ImageField(upload_to="images/product/%id")
-    image2 = models.ImageField(upload_to="images/product/%id", null=True, blank=True)
-    image3 = models.ImageField(upload_to="images/product/%id", null=True, blank=True)
+    image1 = models.ImageField(upload_to="images/product/%ID")
+    image2 = models.ImageField(upload_to="images/product/%Id", null=True, blank=True)
+    image3 = models.ImageField(upload_to="images/product/%pk", null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
@@ -41,7 +48,8 @@ class Product_Detalis(models.Model):
     price = models.IntegerField()
     has_Guaranty = models.BooleanField()
     quantity = models.IntegerField()
-
+    property = models.ManyToManyField(Property)
+    
     def __str__(self):
         return self.product.name + " Details"
 
@@ -77,10 +85,6 @@ class Promotions(models.Model):
 #     user
 #     product
 
-# class Address(models.Model):
-#     user
-#     full_Address
-#     is_Personal
 
 # class Order(models.Model):
 #     product_Details
@@ -91,3 +95,4 @@ class Promotions(models.Model):
 #     created_at
 #     status
 #     description
+#  address

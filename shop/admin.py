@@ -20,3 +20,6 @@ class CategoryAdmin(admin.ModelAdmin):
 class PromotionsAdmin(admin.ModelAdmin):
     list_display = ['product_Details','start_Date','end_Date','percentage',]
 
+@admin.register(Property)
+class PropertyAdmin(admin.ModelAdmin):
+    list_display = ["key","value", "category"]
