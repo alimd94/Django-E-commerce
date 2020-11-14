@@ -5,12 +5,8 @@ from .models import *
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ["name", 'slug','weight','dimension','category','created_at','model_name','brand','image1','image2','image3',]
+    list_display = ["name", 'slug','category','created_at','image1','image2','image3','description','price']
 
-
-@admin.register(Product_Detalis)
-class ProductDetalisAdmin(admin.ModelAdmin):
-    list_display = ['product','color','price','has_Guaranty','quantity',]
 
 @admin.register(Category)
 class CategoryAdmin(admin.ModelAdmin):
@@ -18,8 +14,4 @@ class CategoryAdmin(admin.ModelAdmin):
 
 @admin.register(Promotions)
 class PromotionsAdmin(admin.ModelAdmin):
-    list_display = ['product_Details','start_Date','end_Date','percentage',]
-
-@admin.register(Property)
-class PropertyAdmin(admin.ModelAdmin):
-    list_display = ["key","value", "category"]
+    list_display = ['product','start_Date','end_Date','percentage',]

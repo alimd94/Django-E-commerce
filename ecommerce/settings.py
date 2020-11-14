@@ -79,7 +79,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'shop',
+        'NAME': 'shopdb',
         'USER': 'postgres',
         'PASSWORD': '123',
         'HOST': 'localhost',
@@ -128,3 +128,4 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'static'
 
+AUTH_USER_MODEL = 'shop.User'
