@@ -1,9 +1,14 @@
 from django.shortcuts import render
+from django.views import View
+from shop.models import Product, Invoice, Order, Reviews, Category, Promotions, Favorites 
 
 # Create your views here.
-def index(request):
-    template_name = "templates/index.html"
-    return render(request,template_name)
+class Index(View):
+    def get(self,request):
+        template_name = "templates/index.html"
+        context = {
+            }
+        return render(request,template_name,context,)
 
 def product(request):
     template_name = "templates/product.html"

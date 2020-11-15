@@ -15,13 +15,19 @@ class User(AbstractUser):
 
 
 def get_upload_path(instance, filename):
-    return os.path.join(str(instance.category), '/%Y/%m')
+    try:
+        if instance.category:
+            tmp = os.path.join('media','images', str(instance.category),str(instance.name),filename)
+    except:
+        tmp = os.path.join('media','images','category',filename)
+    
+    return tmp
 
 
 # Create your models here.
 class Category(mpttmodels.MPTTModel):
     name = models.CharField(max_length=100)
-    image = models.ImageField(upload_to="images/category/%Name")
+    image = models.ImageField(upload_to=get_upload_path)
     parent = mpttmodels.TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
 
     def __str__(self):
