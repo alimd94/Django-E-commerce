@@ -119,7 +119,8 @@
 								<form method="POST" action="{% url 'cart:add' product.id %}">
 								{% csrf_token %}
 								 {% comment %} <input type="hidden" id="custId" name="custId" value="{{ product.id }}"> {% endcomment %}
-								<input type="submit" value="submit">
+								<button type="submit"class="primary-btn">Add to Cart</button>
+
 								</form>
 						</div>
 

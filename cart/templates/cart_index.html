@@ -9,6 +9,13 @@
 {% for item in cart %}
 	{% with product=item.product %}
     	<p> {{product.name}} </p>
+    	<p> {{product.price}} </p>
+    	<p> {{product.price.size}} </p>
+    	<p> {{product.category}} </p>
+			<form method="POST" action="{% url 'cart:delete' product.id %}">
+					{% csrf_token %}
+				<button type="submit"class="primary-btn">Delete from Cart</button>
+			</form>
 	{% endwith %}
 {% endfor %}
 {% endblock content%}

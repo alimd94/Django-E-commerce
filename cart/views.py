@@ -14,12 +14,15 @@ class Index(View):
         return render(request,template_name,context,)
 
 class AddCart(View):
-    def get(self,request):
-        pass
-
     def post(self,request,pk):
         cart = Cart(request)
         product = Product.objects.get(pk=pk)
         cart.add(product,1,1000)
         return redirect("cart:index")
 
+class DeleteCart(View):
+    def post(self,request,pk):
+        cart = Cart(request)
+        product = Product.objects.get(pk=pk)
+        cart.remove(product)
+        return redirect("cart:index")

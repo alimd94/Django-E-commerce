@@ -15,14 +15,15 @@ class User(AbstractUser):
 
 
 def get_upload_path(instance, filename):
-    try:
-        if instance.category:
-            tmp = os.path.join('media','images', str(instance.category),str(instance.name),filename)
-    except:
-        tmp = os.path.join('media','images','category',filename)
-    
-    return tmp
-
+    if hasattr(instance,'category'):
+        tmp = os.path.join('images', str(instance.category),str(instance.name),filename)
+        return tmp
+    elif hasattr(instance,'parent'):
+        tmp = os.path.join('images','category',filename)
+        return tmp
+    else:
+        tmp = os.path.join('images','brand',filename)
+        return tmp
 
 # Create your models here.
 class Category(mpttmodels.MPTTModel):
@@ -33,14 +34,23 @@ class Category(mpttmodels.MPTTModel):
     def __str__(self):
         return self.name
     
+class Brand(models.Model):
+    name = models.CharField(max_length=100)
+    image = models.ImageField(upload_to=get_upload_path)
+    def __str__(self):
+        return self.name
+    
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=200, unique=True)
-    specification= models.JSONField()
-    price = models.JSONField()
-    description = models.TextField()
+    brand = models.ForeignKey(Brand, on_delete=models.SET_DEFAULT, default="No Brand")
+    specification= models.TextField()
+    price = models.DecimalField(decimal_places=2, max_digits=10)
+    long_description = models.TextField()
+    short_description = models.TextField()
     category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default="No Category")
+    number_of_sold = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     image1 = models.ImageField(upload_to=get_upload_path)
     image2 = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
@@ -92,7 +102,8 @@ class Order(models.Model):
         PENDING = 'P', 'Pending'
         SUCCESFUL = 'S', 'Succesful'
         CANCELED = 'C', 'Canceled'
-
+        
+    product = models.ForeignKey('Product',on_delete=models.CASCADE)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     quantity = models.IntegerField()
     price = models.IntegerField()
