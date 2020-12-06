@@ -52,6 +52,7 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.SET_DEFAULT, default="No Category")
     number_of_sold = models.IntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
+    quantity = models.IntegerField()
     image1 = models.ImageField(upload_to=get_upload_path)
     image2 = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
     image3 = models.ImageField(upload_to=get_upload_path, null=True, blank=True)
@@ -103,21 +104,23 @@ class Order(models.Model):
         SUCCESFUL = 'S', 'Succesful'
         CANCELED = 'C', 'Canceled'
         
-    product = models.ForeignKey('Product',on_delete=models.CASCADE)
+    product = models.ManyToManyField(Product,through='OrderItems')
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    price = models.IntegerField()
+    total_quantity = models.IntegerField()
+    total_cost = models.DecimalField(decimal_places=2, max_digits=10)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at =  models.DateField(auto_now=True)
     status = models.CharField(max_length=1,choices=StatusChoice.choices, default=StatusChoice.PENDING)
     description = models.TextField()
 
-class Invoice(models.Model):
-    order = models.OneToOneField(Order, on_delete=models.DO_NOTHING)
-    created_at = models.DateTimeField(auto_now_add=True)
-    trackingNo =models.CharField(max_length=50)
+
+class OrderItems(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    order = models.ForeignKey(Order, on_delete=models.CASCADE)
+    quantity = models.IntegerField()
+    unit_cost = models.DecimalField(decimal_places=2, max_digits=10)
+    total_product_cost = models.DecimalField(decimal_places=2, max_digits=10)
 
     def save(self, *args, **kwargs):
-        ts = time.time()
-        self.trackingNo = str(ts)
-        super(Invoice, self).save(*args, **kwargs)
+        self.unit_cost = self.quantity * self.unit_cost
+        super(OrderItems, self).save(*args, **kwargs)

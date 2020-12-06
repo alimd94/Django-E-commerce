@@ -17,7 +17,7 @@ class AddCart(View):
     def post(self,request,pk):
         cart = Cart(request)
         product = Product.objects.get(pk=pk)
-        cart.add(product,1,1000)
+        cart.add(product,request.POST.get('qty', 1))
         return redirect("cart:index")
 
 class DeleteCart(View):

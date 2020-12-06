@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views import View
-from shop.models import Product, Invoice, Order, Reviews, Category, Promotions, Favorites, Brand
+from shop.models import Product, Order, Reviews, Category, Promotions, Favorites, Brand
 from django.views.generic import DetailView
 
 # Create your views here.
@@ -23,7 +23,7 @@ class Index(View):
         
         template_name = "index.html"
         context = {
-            'topBrand': topBrand,
+            'topBrands': topBrand,
             'newProducts': newProducts,
             'categories': categories,
             'topSellings': topSellings,
@@ -34,8 +34,10 @@ class ProductDetail(View):
     def get(self,request, pk):
         template_name = "product.html"
         product = Product.objects.get(pk=pk)
+        categories = Category.objects.get(pk=product.category.id).get_family()
         context = {
-            'product':product
+            'product':product,
+            'categories':categories
             }
         return render(request,template_name,context,)
 

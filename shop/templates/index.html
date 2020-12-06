@@ -234,7 +234,6 @@
 							<div class="products-slick" data-nav="#slick-nav-4{{ forloop.counter0 }}">
 								<!-- product -->
 								{% for topSelling in topSellings %}
-								<p> {{topSelling.name}} </p>
 								<div class="product">
 									<div class="product-img catImg">
 										<img  src="{{topSelling.image1.url}}" alt="">
@@ -288,7 +287,21 @@
 	<div class="container">
 		<!-- row -->
 		<div class="row">
-
+		<div class="col-md-12">
+				<div class="section-title">
+						<h3 class="title">Top Brand</h3>
+					</div>
+			</div>	
+			{% for topBrand in topBrands %}
+				<div class="col-lg-3 col-sm-6 col-md-3">
+                     <a href="#">
+                        <div class="box-img">
+                           <h4>{{topBrand.name}}</h4>
+                           <img src="{{topBrand.image.url}}" alt="" />
+                        </div>
+                     </a>
+                  </div>
+			{% endfor %}
 
 		</div>
 		<!-- /row -->

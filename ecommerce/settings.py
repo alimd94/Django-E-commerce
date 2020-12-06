@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'shop.apps.ShopConfig',
     'cart.apps.CartConfig',
     'mptt',
+    'mathfilters',
 ]
 
 MIDDLEWARE = [

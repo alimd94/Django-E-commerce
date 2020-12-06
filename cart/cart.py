@@ -12,10 +12,10 @@ class Cart():
         self.cart = cart
     
 
-    def add(self, product, quantity, price):
+    def add(self, product, quantity):
         product_id = str(product.id)
         if product_id not in self.cart:
-            self.cart[product_id] = {'quantity': quantity, 'price': price}
+            self.cart[product_id] = {'quantity': quantity, 'price': str(product.price)}
         self.save()
 
 
@@ -26,7 +26,7 @@ class Cart():
         
     def update(self,product, quantity, price):
         product_id = str(product.id)
-        self.cart[product_id] = {'quantity': quantity, 'price': price}
+        self.cart[product_id] = {'quantity': quantity, 'price': str(product.price)}
         self.save()
 
 
@@ -44,11 +44,11 @@ class Cart():
 
         for item in self.cart.values():
             item['price'] = Decimal(item['price'])
-            item['total_price'] = item['price'] * item['quantity']
+            item['total_price'] = Decimal(item['price']) * Decimal(item['quantity'])
             yield item
     
     def __len__(self):
-        return sum(item['quantity'] for item in self.cart.values())
+        return sum(int(item['quantity']) for item in self.cart.values())
 
     def get_total_price(self):
         return sum(Decimal(item['price']) * item['quantity'] for item in self.cart.values())
