@@ -1,4 +1,5 @@
 {% load static %}
+{% load mathfilters %}
 <!DOCTYPE html>
 
    	<head>
@@ -46,9 +47,9 @@
 			<div id="top-header">
 				<div class="container">
 					<ul class="header-links pull-left">
-						<li><a href="#"><i class="fa fa-phone"></i> +021-95-51-84</a></li>
-						<li><a href="#"><i class="fa fa-envelope-o"></i> email@email.com</a></li>
-						<li><a href="#"><i class="fa fa-map-marker"></i> 1734 Stonecoal Road</a></li>
+						<li><a href="#"><i class="fa fa-phone"></i> +98-910-913-94-90</a></li>
+						<li><a href="#"><i class="fa fa-envelope-o"></i> a9473m@gmail.com</a></li>
+						<li><a href="#"><i class="fa fa-map-marker"></i> Tehran - Iran</a></li>
 					</ul>
 					<ul class="header-links pull-right">
 						<li><a href="#"><i class="fa fa-dollar"></i> USD</a></li>
@@ -67,7 +68,7 @@
 						<!-- LOGO -->
 						<div class="col-md-3">
 							<div class="header-logo">
-								<a href="#" class="logo">
+								<a href="{% url 'shop:index' %}" class="logo">
 									<img src=" {% static 'shop/img/logo.png' %} " alt="">
 								</a>
 							</div>
@@ -109,38 +110,32 @@
 									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Your Cart</span>
-										<div class="qty">3</div>
+										<div class="qty">{{cart|length}}</div>
 									</a>
 									<div class="cart-dropdown">
 										<div class="cart-list">
+										{% for item in cart %}
 											<div class="product-widget">
 												<div class="product-img">
-													<img src="{% static 'shop/img/product01.png' %}" alt="">
+													<img src="{{item.product.image1.url}}" alt="">
 												</div>
 												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">1x</span>$980.00</h4>
+													<h3 class="product-name"><a href="{% url 'shop:detail' item.product.id %}">{{item.product.name}}</a></h3>
+													<h4 class="product-price"><span class="qty">{{item.quantity}}x</span>$ {{item.product.price}}</h4>
 												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
+												          <form method="POST" action="{% url 'cart:delete' item.product.id %}">
+															{% csrf_token %}
+														<button class="delete"><i class="fa fa-close"></i></button>
+														</form>
 											</div>
-
-											<div class="product-widget">
-												<div class="product-img">
-													<img src="{% static 'shop/img/product02.png' %}" alt="">
-												</div>
-												<div class="product-body">
-													<h3 class="product-name"><a href="#">product name goes here</a></h3>
-													<h4 class="product-price"><span class="qty">3x</span>$980.00</h4>
-												</div>
-												<button class="delete"><i class="fa fa-close"></i></button>
-											</div>
+										{% endfor %}
 										</div>
 										<div class="cart-summary">
 											<small>3 Item(s) selected</small>
 											<h5>SUBTOTAL: $2940.00</h5>
 										</div>
 										<div class="cart-btns">
-											<a href="#">View Cart</a>
+											<a href="{% url 'cart:index' %}">View Cart</a>
 											<a href="#">Checkout  <i class="fa fa-arrow-circle-right"></i></a>
 										</div>
 									</div>
@@ -177,11 +172,11 @@
 					<ul class="main-nav nav navbar-nav">
 						<li class="active"><a href="#">Home</a></li>
 						<li><a href="#">Hot Deals</a></li>
-						<li><a href="#">Categories</a></li>
-						<li><a href="#">Laptops</a></li>
-						<li><a href="#">Smartphones</a></li>
-						<li><a href="#">Cameras</a></li>
-						<li><a href="#">Accessories</a></li>
+						{% for category in categories %}
+							<li><a href="#">{{ category.name}}</a></li>
+						{% endfor %}
+						
+
 					</ul>
 					<!-- /NAV -->
 				</div>

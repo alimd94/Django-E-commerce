@@ -32,6 +32,12 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    #  'bootstrap_admin',
+    # 'django_admin_material',
+    #'jazzmin',
+    'rangefilter',
+    'django_mptt_admin',
+    'logentry_admin',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -42,6 +48,9 @@ INSTALLED_APPS = [
     'cart.apps.CartConfig',
     'mptt',
     'mathfilters',
+    #  'material.admin',
+    #  'material.admin.default',
+
 ]
 
 MIDDLEWARE = [
@@ -67,7 +76,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                'shop.context_processors.get_context',
+                'shop.context_processors.get_categories',
+                'shop.context_processors.get_cart',
             ],
         },
     },
@@ -120,7 +130,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'fa'
 
 TIME_ZONE = 'UTC'
 
@@ -144,3 +154,4 @@ MEDIA_ROOT = BASE_DIR / 'media'
 MEDIA_URL = '/media/'
 
 CART_SESSION_ID = 'cart'
+

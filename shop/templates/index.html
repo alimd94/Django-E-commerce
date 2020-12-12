@@ -131,7 +131,10 @@
 										</div>
 									</div>
 									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+										<form method="POST" action="{% url 'cart:add' newProduct.id %}">
+										{% csrf_token %}
+										<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+										</form>	
 									</div>
 								</div>
 								{% endfor %}
@@ -188,7 +191,7 @@
 					</ul>
 					<h2 class="text-uppercase">hot deal this week</h2>
 					<p>New Collection Up to 50% OFF</p>
-					<a class="primary-btn cta-btn" href="#">Shop now</a>
+					<a class="primary-btn cta-btn" href="{% url 'shop:store' %}">Shop now</a>
 				</div>
 			</div>
 		</div>
@@ -260,7 +263,10 @@
 										</div>
 									</div>
 									<div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+										<form method="POST" action="{% url 'cart:add' topSelling.id %}">
+										{% csrf_token %}
+										<button type="submit" class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> Add to Cart</button>
+										</form>	
 									</div>
 								</div>
 								{% endfor %}

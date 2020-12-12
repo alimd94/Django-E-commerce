@@ -35,9 +35,11 @@ class ProductDetail(View):
         template_name = "product.html"
         product = Product.objects.get(pk=pk)
         categories = Category.objects.get(pk=product.category.id).get_family()
+        relatedP = Product.objects.filter(category=product.category).exclude(pk=pk)[:5]
         context = {
             'product':product,
-            'categories':categories
+            'categories':categories,
+            'relatedP': relatedP
             }
         return render(request,template_name,context,)
 
