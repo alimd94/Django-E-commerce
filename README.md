@@ -1,6 +1,6 @@
 Django E-commerce
 
-Requierment:
+Requirements:
 
     Django==3.1.4
     django_mptt_admin==2.0.2
