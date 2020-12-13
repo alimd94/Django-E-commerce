@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse, JsonResponse
 from django.shortcuts import render
 from django.views import View
 from shop.models import Product, Order, Reviews, Category, Promotions, Favorites, Brand
@@ -13,6 +14,15 @@ from django.views.generic import DetailView
 #
 class Index(View): 
     def get(self,request):
+        if request.GET.get('id'):
+            id = request.GET.get('id')
+            _product = Product.objects.get(pk=id)
+            product=dict()
+            product["name"] = _product.name
+            product["price"] = _product.price
+            product["short_description"] = _product.short_description
+            product["image"] = _product.image1.url
+            return JsonResponse(product)
         categories = Category.objects.filter(parent__isnull=True)
         newProducts = {}
         topSellings = {}
@@ -29,6 +39,9 @@ class Index(View):
             'topSellings': topSellings,
             }
         return render(request,template_name,context,)
+    
+
+
 
 class ProductDetail(View):
     def get(self,request, pk):
