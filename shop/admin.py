@@ -31,7 +31,7 @@ class ExportCsvMixin:
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin,ExportCsvMixin):
-    list_display = ["name", 'slug','category','brand','price','created_at','image1','image2','image3','view_detail']
+    list_display = ["name", 'slug','category','brand','price','created_at','quantity','number_of_sold','view_detail']
     icon_name = 'shop'
     actions = ["export_as_csv"]
 
@@ -67,3 +67,7 @@ class OrderAdmin(admin.ModelAdmin):
     list_filter = (
         ('created_at', DateRangeFilter), ('updated_at', DateTimeRangeFilter),
     )
+
+@admin.register(Property)
+class PropertyAdmin(admin.ModelAdmin):
+    list_display = ["key","value", "category"]

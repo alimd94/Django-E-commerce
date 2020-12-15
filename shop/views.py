@@ -27,9 +27,9 @@ class Index(View):
         newProducts = {}
         topSellings = {}
         for category in categories:
-          newProducts[category.name] = Product.objects.filter(category=category.id).order_by('created_at')[:5]
-          topSellings[category.name] = Product.objects.filter(category=category.id).order_by('number_of_sold')[:5]
-        topBrand = Brand.objects.all().order_by('product__number_of_sold')[:5]
+          newProducts[category.name] = Product.objects.filter(category=category.id).order_by('-created_at')[:5]
+          topSellings[category.name] = Product.objects.filter(category=category.id).order_by('-number_of_sold')[:5]
+        topBrand = Brand.objects.all().order_by('-product__number_of_sold')[:4]
         
         template_name = "index.html"
         context = {

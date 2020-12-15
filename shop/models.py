@@ -40,12 +40,23 @@ class Brand(models.Model):
     def __str__(self):
         return self.name
     
+class Property(models.Model):
+    key = models.CharField(max_length=50)
+    value = models.CharField(max_length=300)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = "Properties"
+
+    def __str__(self):
+        return self.key + ":" + self.value
+
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
     slug = models.SlugField(max_length=200, unique=True)
     brand = models.ForeignKey(Brand, on_delete=models.SET_DEFAULT, default="No Brand")
-    specification= models.TextField()
+    specification = models.ManyToManyField(Property)
     price = models.DecimalField(decimal_places=2, max_digits=10)
     long_description = models.TextField()
     short_description = models.TextField()
